@@ -1,0 +1,297 @@
+Program.Sub.ScreenSU.Start
+gui.F_Positive_Pay_TD_Bank..create
+gui.F_Positive_Pay_TD_Bank..caption("Positive Pay File")
+gui.F_Positive_Pay_TD_Bank..size(3420,2475)
+gui.F_Positive_Pay_TD_Bank..position(0,0)
+gui.F_Positive_Pay_TD_Bank..event(unload,f_positive_pay_pplsunited_unload)
+gui.F_Positive_Pay_TD_Bank..alwaysontop(False)
+gui.F_Positive_Pay_TD_Bank..fontname("Arial")
+gui.F_Positive_Pay_TD_Bank..fontsize(8)
+gui.F_Positive_Pay_TD_Bank..forecolor(0)
+gui.F_Positive_Pay_TD_Bank..fontstyle(,,,,)
+gui.F_Positive_Pay_TD_Bank..BackColor(-2147483633)
+gui.F_Positive_Pay_TD_Bank..controlbox(True)
+gui.F_Positive_Pay_TD_Bank..maxbutton(True)
+gui.F_Positive_Pay_TD_Bank..minbutton(True)
+gui.F_Positive_Pay_TD_Bank..mousepointer(0)
+gui.F_Positive_Pay_TD_Bank..moveable(True)
+gui.F_Positive_Pay_TD_Bank..sizeable(False)
+gui.F_Positive_Pay_TD_Bank..ShowInTaskBar(True)
+gui.F_Positive_Pay_TD_Bank..titlebar(True)
+gui.F_Positive_Pay_TD_Bank.frOpt.create(frame)
+gui.F_Positive_Pay_TD_Bank.frOpt.caption("")
+gui.F_Positive_Pay_TD_Bank.frOpt.size(2745,585)
+gui.F_Positive_Pay_TD_Bank.frOpt.position(200,700)
+gui.F_Positive_Pay_TD_Bank.frOpt.visible(True)
+gui.F_Positive_Pay_TD_Bank.frOpt.borderstyle(0)
+gui.F_Positive_Pay_TD_Bank.frOpt.fontname("Arial")
+gui.F_Positive_Pay_TD_Bank.frOpt.fontsize(8)
+gui.F_Positive_Pay_TD_Bank.cmdOK.create(button)
+gui.F_Positive_Pay_TD_Bank.cmdOK.caption("Ok")
+gui.F_Positive_Pay_TD_Bank.cmdOK.visible(True)
+gui.F_Positive_Pay_TD_Bank.cmdOK.size(900,375)
+gui.F_Positive_Pay_TD_Bank.cmdOK.zorder(0)
+gui.F_Positive_Pay_TD_Bank.cmdOK.position(200,1400)
+gui.F_Positive_Pay_TD_Bank.cmdOK.enabled(True)
+gui.F_Positive_Pay_TD_Bank.cmdOK.fontname("Arial")
+gui.F_Positive_Pay_TD_Bank.cmdOK.fontsize(8)
+gui.F_Positive_Pay_TD_Bank.cmdOK.event(click,cmdok_click)
+gui.F_Positive_Pay_TD_Bank.dtpBegin.create(datepicker)
+gui.F_Positive_Pay_TD_Bank.dtpBegin.visible(True)
+gui.F_Positive_Pay_TD_Bank.dtpBegin.size(1350,285)
+gui.F_Positive_Pay_TD_Bank.dtpBegin.zorder(0)
+gui.F_Positive_Pay_TD_Bank.dtpBegin.position(200,400)
+gui.F_Positive_Pay_TD_Bank.dtpBegin.enabled(True)
+gui.F_Positive_Pay_TD_Bank.dtpBegin.checkbox(False)
+gui.F_Positive_Pay_TD_Bank.dtpEnd.create(datepicker)
+gui.F_Positive_Pay_TD_Bank.dtpEnd.visible(True)
+gui.F_Positive_Pay_TD_Bank.dtpEnd.size(1350,285)
+gui.F_Positive_Pay_TD_Bank.dtpEnd.zorder(0)
+gui.F_Positive_Pay_TD_Bank.dtpEnd.position(1600,400)
+gui.F_Positive_Pay_TD_Bank.dtpEnd.enabled(True)
+gui.F_Positive_Pay_TD_Bank.dtpEnd.checkbox(False)
+gui.F_Positive_Pay_TD_Bank.optChecks.create(option)
+gui.F_Positive_Pay_TD_Bank.optChecks.caption("Checks")
+gui.F_Positive_Pay_TD_Bank.optChecks.visible(True)
+gui.F_Positive_Pay_TD_Bank.optChecks.size(855,255)
+gui.F_Positive_Pay_TD_Bank.optChecks.zorder(0)
+gui.F_Positive_Pay_TD_Bank.optChecks.position(100,200)
+gui.F_Positive_Pay_TD_Bank.optChecks.enabled(True)
+gui.F_Positive_Pay_TD_Bank.optChecks.alignment(0)
+gui.F_Positive_Pay_TD_Bank.optChecks.parent("fropt")
+gui.F_Positive_Pay_TD_Bank.optChecks.fontname("Arial")
+gui.F_Positive_Pay_TD_Bank.optChecks.fontsize(8)
+gui.F_Positive_Pay_TD_Bank.optVoids.create(option)
+gui.F_Positive_Pay_TD_Bank.optVoids.caption("Voids")
+gui.F_Positive_Pay_TD_Bank.optVoids.visible(True)
+gui.F_Positive_Pay_TD_Bank.optVoids.size(1000,255)
+gui.F_Positive_Pay_TD_Bank.optVoids.zorder(0)
+gui.F_Positive_Pay_TD_Bank.optVoids.position(1200,200)
+gui.F_Positive_Pay_TD_Bank.optVoids.enabled(True)
+gui.F_Positive_Pay_TD_Bank.optVoids.alignment(0)
+gui.F_Positive_Pay_TD_Bank.optVoids.parent("fropt")
+gui.F_Positive_Pay_TD_Bank.optVoids.fontname("Arial")
+gui.F_Positive_Pay_TD_Bank.optVoids.fontsize(8)
+gui.F_Positive_Pay_TD_Bank.lblBeginDate.create(label,"Beginning Date",True,1935,255,1,200,200,True,0,Arial,8,-2147483633,0)
+gui.F_Positive_Pay_TD_Bank.lblEndDate.create(label,"Ending Date",True,1935,255,1,1600,200,True,0,Arial,8,-2147483633,0)
+
+
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+'Coded by: Melinda Keyes
+'Hooks:
+'  Custom Menu Item - Accounts Payable > Transactions > TD Bank Positive Pay
+'Quote: 4377-2
+'Notes:
+'  'This script creates a positive pay file in the format specified by TD Bank
+
+F.Intrinsic.Control.SetErrorHandler("Main_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+F.ODBC.Connection!conX.OpenConnection(V.Ambient.PDSN,V.Ambient.PUser,V.Ambient.PPass)
+Gui.F_Positive_Pay_TD_Bank..Visible(true)
+Gui.F_Positive_Pay_TD_Bank..Show
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Main_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_BLP_POS_PAY.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(F_positive_pay_pplsunited_unload)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.Main.End
+
+program.sub.cmdok_click.start
+'Create a positive pay file for export to TD Banks
+F.Intrinsic.Control.SetErrorHandler("cmdok_click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sReturn.Declare(String)
+V.Local.sFileName.Declare(String)
+V.Local.sMonth.Declare(String)
+V.Local.sDay.Declare(String)
+V.Local.sAcct.Declare(String)
+V.Local.iHdl.Declare(Long)
+
+Gui.F_Positive_Pay_TD_Bank..Enabled(false)
+
+F.Intrinsic.Control.If(V.Screen.F_Positive_Pay_TD_Bank!optChecks.Value,<>,True)
+F.Intrinsic.Control.AndIf(V.Screen.F_Positive_Pay_TD_Bank!optVoids.Value,<>,True)
+	F.Intrinsic.UI.Msgbox("Please select a checks or voids.","Print Type Required")
+	Gui.F_Positive_Pay_TD_Bank..Enabled(true)
+	F.Intrinsic.Control.ExitSub
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.UI.ShowSaveFileDialog(V.Caller.FilesDir,"*.txt",V.Local.sFileName)
+F.Intrinsic.Control.If(V.Local.sFileName,=,"***CANCEL***")
+	F.Intrinsic.UI.Msgbox("No positive pay export file selected.")
+	F.Intrinsic.Control.End
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.File.GetHandle(V.Local.iHdl)
+F.Intrinsic.File.GetFileList(V.Local.sFileName,V.Local.sReturn)
+F.Intrinsic.Control.If(V.Local.sReturn,=,"")
+	F.Intrinsic.File.OpenForWrite(V.Local.sFileName,V.Local.iHdl)
+F.Intrinsic.Control.Else
+	F.Intrinsic.File.DeleteFile(V.Local.sFileName)
+	F.Intrinsic.File.OpenForWrite(V.Local.sFileName,V.Local.iHdl)
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.CallSub(Detail_record,"iHdl",V.Local.iHdl)
+
+F.Intrinsic.File.CloseFile(V.Local.iHdl)
+F.Intrinsic.Control.CallSub(F_positive_pay_pplsunited_unload)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmdok_click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Gui.F_Positive_Pay_TD_Bank..Enabled(true)
+	Function.Intrinsic.String.Concat("Project: ATG_BLP_POS_PAY.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(F_positive_pay_pplsunited_unload)
+Function.Intrinsic.Control.EndIf
+
+program.sub.cmdok_click.end
+
+Program.Sub.detail_record.Start
+'Write out a detail line to the file for each check/void to be printed
+F.Intrinsic.Control.SetErrorHandler("detail_record_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sChkSerial.Declare(String)
+V.Local.sIssueDate.Declare(String)
+V.Local.sAcctNum.Declare(String)
+V.Local.sTransCode.Declare(String)
+V.Local.sBankNo.Declare(String)
+V.Local.sAmount.Declare(String)
+V.Local.sPayee.Declare(String)
+V.Local.sVendorNo.Declare(String)
+V.Local.iRecCount.Declare(Long)
+V.Local.iLen.Declare(Long)
+V.Local.fAmountTotal.Declare(Float)
+V.Local.fAmount.Declare(Float)
+V.Local.sQuery.Declare(String)
+V.Local.sBeginDate.Declare(String)
+V.Local.sEndDate.Declare(String)
+V.Local.sFileLine.Declare(String)
+V.Local.bDec.Declare(Boolean)
+V.Local.bExists.Declare(Boolean)
+V.Local.bMatch.Declare(Boolean)
+V.Local.sMsg.Declare(String)
+
+F.Intrinsic.String.Format(V.Screen.F_Positive_Pay_TD_Bank!dtpBegin.Value,"YYYY-MM-DD",V.Local.sBeginDate)
+F.Intrinsic.String.Format(V.Screen.F_Positive_Pay_TD_Bank!dtpEnd.Value,"YYYY-MM-DD",V.Local.sEndDate)
+
+'Open for accounts payable
+V.Local.sQuery.Set("SELECT * FROM V_CHECKS_LOG WHERE CK_OR_VOID = ")
+
+F.Intrinsic.Control.If(V.Screen.F_Positive_Pay_TD_Bank!optChecks.Value,=,True)
+'Print out checks
+	F.Intrinsic.String.Concat(V.Local.sQuery,"'C' AND CK_DATE BETWEEN '",V.Local.sBeginDate,"' AND '",V.Local.sEndDate,"' ORDER BY CK_DATE",V.Local.sQuery)
+	'transaction code - I for Issue
+	V.Local.sTransCode.Set("10")
+F.Intrinsic.Control.Else
+'Print out voids
+	F.Intrinsic.String.Concat(V.Local.sQuery,"'V' AND CK_DATE BETWEEN '",V.Local.sBeginDate,"' AND '",V.Local.sEndDate,"' ORDER BY CK_DATE",V.Local.sQuery)
+	'transaction code - V for Void
+	V.Local.sTransCode.Set("11")
+F.Intrinsic.Control.EndIf
+
+V.Local.iRecCount.Set(0)
+V.Local.fAmountTotal.Set(0)
+
+'Open the accounts payable recordset
+F.ODBC.Connection!conX.OpenRecordsetRO("rstAccts",V.Local.sQuery)
+F.Intrinsic.Control.DoUntil(V.ODBC.conX!rstAccts.EOF,=,True)
+
+	V.Local.sChkSerial.Set(V.ODBC.conX!rstAccts.FieldValTrim!CK_NO)
+	F.Intrinsic.String.LPad(V.Local.sChkSerial,"0",10,V.Local.sChkSerial)
+	V.Local.sIssueDate.Set(V.ODBC.conX!rstAccts.FieldValTrim!CK_MDYY)
+	F.Intrinsic.String.Format(V.Local.sIssueDate,"MMDDYY",V.Local.sIssueDate)
+'	F.Intrinsic.String.Format(V.Local.sIssueDate,"MM/DD/YYYY",V.Local.sIssueDate)
+	V.Local.sAcctNum.Set(V.ODBC.conX!rstAccts.FieldValTrim!ACCT_NO)
+	V.Local.fAmount.Set(V.ODBC.conX!rstAccts.FieldValFloat!AMOUNT)
+	F.Intrinsic.String.Format(V.Local.fAmount,"#.00",V.Local.sAmount)
+	F.Intrinsic.String.Replace(V.Local.sAmount,".","",V.Local.sAmount)
+	F.Intrinsic.String.LPad(V.Local.sAmount,"0",11,V.Local.sAmount)
+	V.Local.sVendorNo.Set(V.ODBC.conX!rstAccts.FieldValTrim!VEND_NO)
+	V.Local.sPayee.Set(V.ODBC.conX!rstAccts.FieldValTrim!PAYEE)
+	F.Intrinsic.String.RPad(V.Local.sPayee," ",30,V.Local.sPayee)
+
+	F.Intrinsic.String.Concat("0004","02","0000004270919158","60",V.Local.sChkSerial,V.Local.sAmount,V.Local.sPayee,V.Local.sIssueDate,"0",V.Local.sTransCode,V.Local.sFileLine)
+	F.Intrinsic.File.WriteLine(V.Args.iHdl,V.Local.sFileLine)
+	F.ODBC.conX!rstAccts.MoveNext
+F.Intrinsic.Control.Loop
+F.ODBC.conX!rstAccts.Close
+
+F.Intrinsic.File.WriteLine(V.Args.iHdl,"T")
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("detail_record_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Gui.F_Positive_Pay_TD_Bank..Enabled(true)
+	Function.Intrinsic.String.Concat("Project: ATG_BLP_POS_PAY.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(F_positive_pay_pplsunited_unload)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.detail_record.End
+
+program.sub.f_positive_pay_pplsunited_unload.start
+F.Intrinsic.Control.SetErrorHandler("f_positive_pay_pplsunited_unload_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+F.ODBC.Connection!conX.Close
+F.Intrinsic.Control.End
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("f_positive_pay_pplsunited_unload_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_BLP_POS_PAY.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+program.sub.f_positive_pay_pplsunited_unload.end
+
+Program.Sub.Comments.Start
+${$0$}$ATG_BLP_POS_PAY$}$SUPERVSR$}$3/20/2013
+${$3$}$0$}$$}$-1$}$-1$}$$}$1/1/1900$}$This project will create a REV of ATG_Positive_Pay_Wells_Fargo_Bishop.GAS. The output file format will be converted to the .A03 Gregorian Date Input Record specifications.
+
+Using the .A03 Gregorian Date Input Record:
+
+Bank Name: TD Bank
+
+Routing: 054001725
+
+Acct #: 4270919158
+
+Application: 02
+Item Type: 60
+Serial Number: CK_NO from CHECKS_LOG
+Issue Amount: AMOUNT from CHECKS_LOG
+Description: PAYEE from CHECKS_LOG
+Date(MMDDYY): CK_DATE from CHECKS_LOG
+Filler: 0
+
+The last record in the output file must be the letter "T" in the first position.
+
+See the file attachement named ARP Input File Specs Bank.doc under the .A03 Gregorian Date INPUT RECORD section for formatting details.
+Program.Sub.Comments.End
+
